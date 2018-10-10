@@ -1,0 +1,5 @@
+<logger name="com.jd.ad.user" additivity="false" >  
+<!-- name 可以配置哪些包下的日志信息要输出，也可以精准到一个类 -->  
+    <level value="ERROR"/><!-- 要输出的日志信息的级别,我要输出业务日志，则配置为INFO -->  
+    <appender-ref ref="USER_REDIS_LOG"/><!-- 上面的appender的name -->  
+  </logger>  
