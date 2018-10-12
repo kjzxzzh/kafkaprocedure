@@ -41,14 +41,10 @@ public class KafkaTopology {
         spoutConfig.zkServers = CommonUtil.strToList(Constants.hostList);
         spoutConfig.zkPort = Integer.valueOf(Constants.zkPort);
         builder.setSpout("RandomSentence", new KafkaSpout(spoutConfig), 1);
-//        builder.setBolt("SurfBolt", new SurfBolt(), 1).shuffleGrouping("RandomSentence");
         
         builder.setBolt("boltKafka", new SurfBoltKafka(), 1).shuffleGrouping("RandomSentence");
 
-        
-//        builder.setBolt("word-spilter", new SpliterBolt()).shuffleGrouping("RandomSentence");
-//        builder.setBolt("writer", new CountBolt(), 3).fieldsGrouping("word-spilter", new Fields("word"));
-//        builder.setBolt("countBolt", new WordCountBolt(), 2).fieldsGrouping("RandomSentence", new Fields("word"));
+
         /**
          *hbase
          */
