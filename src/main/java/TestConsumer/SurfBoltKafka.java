@@ -20,12 +20,11 @@ public class SurfBoltKafka extends BaseRichBolt{
     org.slf4j.Logger logger;
 
     
-    private static final String TOPIC = "test_out"; //kafka鍒涘缓鐨則opic
-    private static final String BROKER_LIST = "192.168.254.129:9092";//,192.168.71.144:32769"; //broker鐨勫湴鍧�鍜岀鍙�
-    private static final String SERIALIZER_CLASS = "kafka.serializer.StringEncoder"; // 搴忓垪鍖栫被
+    private static final String TOPIC = "test_out"; //kafka閸掓稑缂撻惃鍓噊pic
+    private static final String BROKER_LIST = "192.168.254.129:9092";//,192.168.71.144:32769"; //broker閻ㄥ嫬婀撮崸锟介崪宀�顏崣锟�
+    private static final String SERIALIZER_CLASS = "kafka.serializer.StringEncoder"; // 鎼村繐鍨崠鏍
     private Producer<String, String> producer;
     
-    @Override
     public void prepare(Map stormConf, TopologyContext context, OutputCollector collector) {
         this.collector = collector;
         logger = org.slf4j.LoggerFactory.getLogger(KafkaTopology.class);
@@ -38,7 +37,6 @@ public class SurfBoltKafka extends BaseRichBolt{
 
     }
 
-    @Override
     public void execute(Tuple input) {
     	
         logger.error("SurfBolt run success. first msg=[" + input.getString(0) + "]");
@@ -50,7 +48,6 @@ public class SurfBoltKafka extends BaseRichBolt{
         collector.ack(input);
     }
 
-    @Override
     public void declareOutputFields(OutputFieldsDeclarer declarer) {
         declarer.declare(new Fields("word", "count"));
     }

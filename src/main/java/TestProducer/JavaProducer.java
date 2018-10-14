@@ -23,27 +23,14 @@ public class JavaProducer {
         ProducerConfig config = new ProducerConfig(props);
         Producer<String, String> producer = new Producer<String, String>(config);
 
-        //Send one message.
-        KeyedMessage<String, String> message =
-                new KeyedMessage<String, String>(TOPIC, CONTENT);
-        producer.send(message);
-        producer.close();
-        System.out.println("close");
-        //Send multiple messages.
-//        List<KeyedMessage<String,String>> messages =
-//                new ArrayList<KeyedMessage<String, String>>();
+        //Send  message.
+        KeyedMessage<String, String> message ;
         for (int i = 1; i < 10000; i++) {
-            producer = new Producer<String, String>(config);
-            message =
-                    new KeyedMessage<String, String>(TOPIC, "This is a single message using java " + i);
+            message = new KeyedMessage<String, String>(TOPIC, "This is a single message using java " + i);
             producer.send(message);
-            producer.close();
             Thread.sleep(500);
-//            messages.add(new KeyedMessage<String, String>
-//                    (TOPIC, "Multiple message at a time. " + i));
         }
-//        producer.send(messages);
-//        producer.close();
+        producer.close();
     }
 }
 
