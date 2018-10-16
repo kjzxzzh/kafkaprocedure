@@ -1,4 +1,4 @@
-package TestConsumer;
+package testConsumer;
 
 import backtype.storm.task.OutputCollector;
 import backtype.storm.task.TopologyContext;
@@ -20,9 +20,9 @@ public class SurfBoltKafka extends BaseRichBolt{
     org.slf4j.Logger logger;
 
     
-    private static final String TOPIC = "test_out"; //kafka閸掓稑缂撻惃鍓噊pic
-    private static final String BROKER_LIST = "192.168.254.129:9092";//,192.168.71.144:32769"; //broker閻ㄥ嫬婀撮崸锟介崪宀�顏崣锟�
-    private static final String SERIALIZER_CLASS = "kafka.serializer.StringEncoder"; // 鎼村繐鍨崠鏍
+    private static final String TOPIC = "test_out"; //kafka闁告帗绋戠紓鎾绘儍閸撳檴pic
+    private static final String BROKER_LIST = "192.168.254.129:9092";//,192.168.71.144:32769"; //broker闁汇劌瀚﹢鎾锤閿熶粙宕畝锟介顒勫矗閿燂拷
+    private static final String SERIALIZER_CLASS = "kafka.serializer.StringEncoder"; // 閹兼潙绻愰崹顏堝礌閺嶎偉顫�
     private Producer<String, String> producer;
     
     public void prepare(Map stormConf, TopologyContext context, OutputCollector collector) {

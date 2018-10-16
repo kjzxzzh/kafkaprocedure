@@ -1,4 +1,4 @@
-package TestConsumer;
+package testConsumer;
 
 import backtype.storm.tuple.Fields;
 //import org.apache.hadoop.conf.Configuration;

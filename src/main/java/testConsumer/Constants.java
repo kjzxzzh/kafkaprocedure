@@ -1,4 +1,4 @@
-package TestConsumer;
+package testConsumer;
 import java.io.Serializable;
 
 @SuppressWarnings("serial")

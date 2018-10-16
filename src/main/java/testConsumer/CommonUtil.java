@@ -1,4 +1,4 @@
-package TestConsumer;
+package testConsumer;
 import java.util.*;
 
 public class CommonUtil {

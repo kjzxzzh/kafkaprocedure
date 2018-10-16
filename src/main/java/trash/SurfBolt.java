@@ -1,4 +1,4 @@
-package Old;
+package trash;
 
 import backtype.storm.task.OutputCollector;
 import backtype.storm.task.TopologyContext;
@@ -10,7 +10,7 @@ import backtype.storm.tuple.Values;
 
 import java.util.Map;
 
-import TestConsumer.KafkaTopology;
+import testConsumer.KafkaTopology;
 
 public class SurfBolt extends BaseRichBolt{
     private OutputCollector collector;
