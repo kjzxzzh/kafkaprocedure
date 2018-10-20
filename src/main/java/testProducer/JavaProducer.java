@@ -10,7 +10,7 @@ import kafka.producer.ProducerConfig;
 public class JavaProducer {
     private static final String TOPIC = "test_in"; 
     private static final String CONTENT = "This is a single message using java 1"; 
-    private static final String BROKER_LIST = "192.168.254.129:9092";
+    private static final String BROKER_LIST = "192.168.254.129:9091";
     private static final String SERIALIZER_CLASS = "kafka.serializer.StringEncoder"; 
 
     public  static  void main(String[] args) throws InterruptedException {
