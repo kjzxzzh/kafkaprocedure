@@ -1,65 +1,48 @@
 version: '2'
 services:
-  zookeeper:
+  zookeeper1:
     image: wurstmeister/zookeeper
-    container_name: zookeeper
+    container_name: zookeeper_1
     restart: always
     ports:
       - "2181:2181"
 
 
-  kafka:
+  kafka1:
     image: wurstmeister/kafka:0.10.2.0 
+    container_name: kafka_1
     ports:
-      - "9092:9092"
+      - "9091:9092"
+    links:
+      - zookeeper1:zookeeper
     environment:
       KAFKA_ADVERTISED_HOST_NAME: 192.168.254.129
       KAFKA_ZOOKEEPER_CONNECT: 192.168.254.129:2181
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
 
-  nimbus:
+  nimbus1:
     image: cranelana/jstorm-2.2.1:v2.2.1
-    # build: ./jstorm
-    container_name: nimbus
+    container_name: nimbus_1
     command: jstorm nimbus
     depends_on:
-      - zookeeper
+      - zookeeper1
     links:
-      - zookeeper
-    restart: always
+      - zookeeper1:zookeeper
     ports:
-      - 6627:6627
+      - 6621:6627
     volumes: # docker.sock is mapped as the default CORE_VM_ENDPOINT
       - /tmp:/tmp
 
   supervisor1:
     image: cranelana/jstorm-2.2.1:v2.2.1
-    # build: ./jstorm
-    container_name: supervisor1
+    container_name: supervisor_1
     command: jstorm supervisor
     depends_on:
-      - nimbus
-      - zookeeper
+      - nimbus1
+      - zookeeper1
     links:
-      - nimbus
-      - zookeeper
+      - nimbus1
+      - zookeeper1:zookeeper
     volumes:
       - /tmp:/tmp
-    restart: always
-    
-
-    
-  ui:
-    image: cranelana/jstorm-ui-2.2.1
-    # build: ./ui
-    container_name: ui
-    depends_on:
-      - nimbus
-      - zookeeper
-    links:
-      - nimbus
-      - zookeeper
-    restart: always
-    ports:
-      - 8090:8080
