@@ -7,7 +7,6 @@ services:
     ports:
       - "2181:2181"
 
-
   kafka1:
     image: wurstmeister/kafka:0.10.2.0 
     container_name: kafka_1
@@ -44,5 +43,156 @@ services:
     links:
       - nimbus1
       - zookeeper1:zookeeper
+    volumes:
+      - /tmp:/tmp
+      
+      
+      
+      
+      
+  zookeeper2:
+    image: wurstmeister/zookeeper
+    container_name: zookeeper_2
+    restart: always
+    ports:
+      - "2182:2181"
+
+  kafka2:
+    image: wurstmeister/kafka:0.10.2.0 
+    container_name: kafka_2
+    ports:
+      - "9092:9092"
+    links:
+      - zookeeper2:zookeeper
+    environment:
+      KAFKA_ADVERTISED_HOST_NAME: 192.168.254.129
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  nimbus2:
+    image: cranelana/jstorm-2.2.1:v2.2.1
+    container_name: nimbus_2
+    command: jstorm nimbus
+    depends_on:
+      - zookeeper2
+    links:
+      - zookeeper2:zookeeper
+    ports:
+      - 6622:6627
+    volumes: # docker.sock is mapped as the default CORE_VM_ENDPOINT
+      - /tmp:/tmp
+
+  supervisor2:
+    image: cranelana/jstorm-2.2.1:v2.2.1
+    container_name: supervisor_2
+    command: jstorm supervisor
+    depends_on:
+      - nimbus2
+      - zookeeper2
+    links:
+      - nimbus2
+      - zookeeper2:zookeeper
+    volumes:
+      - /tmp:/tmp
+      
+      
+      
+      
+      
+
+  zookeeper3:
+    image: wurstmeister/zookeeper
+    container_name: zookeeper_3
+    restart: always
+    ports:
+      - "2183:2181"
+
+  kafka3:
+    image: wurstmeister/kafka:0.10.2.0 
+    container_name: kafka_3
+    ports:
+      - "9093:9092"
+    links:
+      - zookeeper3:zookeeper
+    environment:
+      KAFKA_ADVERTISED_HOST_NAME: 192.168.254.129
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  nimbus3:
+    image: cranelana/jstorm-2.2.1:v2.2.1
+    container_name: nimbus_3
+    command: jstorm nimbus
+    depends_on:
+      - zookeeper3
+    links:
+      - zookeeper3:zookeeper
+    ports:
+      - 6623:6627
+    volumes: # docker.sock is mapped as the default CORE_VM_ENDPOINT
+      - /tmp:/tmp
+
+  supervisor3:
+    image: cranelana/jstorm-2.2.1:v2.2.1
+    container_name: supervisor_3
+    command: jstorm supervisor
+    depends_on:
+      - nimbus3
+      - zookeeper3
+    links:
+      - nimbus3
+      - zookeeper3:zookeeper
+    volumes:
+      - /tmp:/tmp
+      
+      
+      
+      
+      
+  zookeeper4:
+    image: wurstmeister/zookeeper
+    container_name: zookeeper_4
+    restart: always
+    ports:
+      - "2184:2181"
+
+  kafka4:
+    image: wurstmeister/kafka:0.10.2.0 
+    container_name: kafka_4
+    ports:
+      - "9094:9092"
+    links:
+      - zookeeper4:zookeeper
+    environment:
+      KAFKA_ADVERTISED_HOST_NAME: 192.168.254.129
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  nimbus4:
+    image: cranelana/jstorm-2.2.1:v2.2.1
+    container_name: nimbus_4
+    command: jstorm nimbus
+    depends_on:
+      - zookeeper4
+    links:
+      - zookeeper4:zookeeper
+    ports:
+      - 6624:6627
+    volumes: # docker.sock is mapped as the default CORE_VM_ENDPOINT
+      - /tmp:/tmp
+
+  supervisor4:
+    image: cranelana/jstorm-2.2.1:v2.2.1
+    container_name: supervisor_4
+    command: jstorm supervisor
+    depends_on:
+      - nimbus4
+      - zookeeper4
+    links:
+      - nimbus4
+      - zookeeper4:zookeeper
     volumes:
       - /tmp:/tmp

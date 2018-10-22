@@ -26,8 +26,9 @@ public class JavaProducer {
         //Send  message.
         KeyedMessage<String, String> message ;
         for (int i = 1; i < 10000; i++) {
-            message = new KeyedMessage<String, String>(TOPIC, "This is a single message using java " + i);
+            message = new KeyedMessage<String, String>(TOPIC, "hello 4nodes " + i);
             producer.send(message);
+            System.out.println(i);
             Thread.sleep(500);
         }
         producer.close();

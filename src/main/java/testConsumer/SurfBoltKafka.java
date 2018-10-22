@@ -10,6 +10,7 @@ import backtype.storm.tuple.Values;
 import kafka.javaapi.producer.Producer;
 import kafka.producer.KeyedMessage;
 import kafka.producer.ProducerConfig;
+import networkManager.KafkaMeddageSender;
 
 import java.util.Map;
 import java.util.Properties;
@@ -18,32 +19,18 @@ public class SurfBoltKafka extends BaseRichBolt{
     private OutputCollector collector;
 
     org.slf4j.Logger logger;
-
+    private KafkaMeddageSender sender;
     
-    private static final String TOPIC = "test_out"; 
-    private static final String BROKER_LIST = "192.168.254.129:9091";
-    private static final String SERIALIZER_CLASS = "kafka.serializer.StringEncoder"; 
-    private Producer<String, String> producer;
     
     public void prepare(Map stormConf, TopologyContext context, OutputCollector collector) {
         this.collector = collector;
         logger = org.slf4j.LoggerFactory.getLogger(KafkaTopology.class);
-        
-        Properties props = new Properties();
-        props.put("serializer.class", SERIALIZER_CLASS);
-        props.put("metadata.broker.list", BROKER_LIST);
-        ProducerConfig config = new ProducerConfig(props);
-        producer = new Producer<String, String>(config);
-
+        this.sender = new KafkaMeddageSender("192.168.254.129:9091,192.168.254.129:9092,192.168.254.129:9093,192.168.254.129:9094","test_out");
     }
 
     public void execute(Tuple input) {
-    	
-        logger.error("SurfBolt run success. first msg=[" + input.getString(0) + "]");
-        
-        KeyedMessage<String, String> message = new KeyedMessage<String, String>(TOPIC, input.getString(0));
-        producer.send(message);
-        
+        logger.error("SurfBolt run success. first msg=[" + input.getString(0) + "]");  
+        this.sender.sendMessage(input.getString(0));
         collector.emit(new Values(input.getString(0),1));
         collector.ack(input);
     }

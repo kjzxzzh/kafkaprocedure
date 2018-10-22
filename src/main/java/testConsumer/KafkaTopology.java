@@ -1,6 +1,7 @@
 package testConsumer;
 
 import backtype.storm.tuple.Fields;
+import networkManager.KafkaMeddageSender;
 //import org.apache.hadoop.conf.Configuration;
 //import org.apache.hadoop.hbase.HBaseConfiguration;
 //import org.apache.storm.hbase.bolt.HBaseBolt;
@@ -19,6 +20,8 @@ import backtype.storm.StormSubmitter;
 import backtype.storm.topology.TopologyBuilder;
 import backtype.storm.spout.SchemeAsMultiScheme;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -42,6 +45,7 @@ public class KafkaTopology {
         spoutConfig.zkPort = Integer.valueOf(Constants.zkPort);
         builder.setSpout("RandomSentence", new KafkaSpout(spoutConfig), 1);
         
+    
         builder.setBolt("boltKafka", new SurfBoltKafka(), 1).shuffleGrouping("RandomSentence");
 
 
@@ -75,6 +79,8 @@ public class KafkaTopology {
 //        builder.setBolt("hbaseBolt", hbase, 1).shuffleGrouping("SurfBolt");
 //        builder.setBolt("hbase", hBaseBolt, 3).shuffleGrouping("writer");
 
+        
+        
         if (args != null && args.length > 0) {
             config.setNumWorkers(1);
             config.put(Config.NIMBUS_HOST, args[0]);
