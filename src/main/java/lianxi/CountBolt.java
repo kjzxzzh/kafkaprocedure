@@ -19,7 +19,6 @@ public class CountBolt extends BaseBasicBolt {
     public void prepare(Map stormConf, TopologyContext context) {
     }
 
-    @Override
     public void execute(Tuple tuple, BasicOutputCollector collector){
 
         String word = tuple.getString(0);
@@ -37,7 +36,6 @@ public class CountBolt extends BaseBasicBolt {
         collector.emit(new Values(word, count));
     }
 
-    @Override
     public void declareOutputFields(OutputFieldsDeclarer declarer){
 
         declarer.declare(new Fields("word","count"));

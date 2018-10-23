@@ -30,6 +30,9 @@ public class SurfBoltKafka extends BaseRichBolt{
 
     public void execute(Tuple input) {
         logger.error("SurfBolt run success. first msg=[" + input.getString(0) + "]");  
+        
+      //验证requestHashSet签名有效性，暂时省略
+        
         this.sender.sendMessage(input.getString(0));
         collector.emit(new Values(input.getString(0),1));
         collector.ack(input);
