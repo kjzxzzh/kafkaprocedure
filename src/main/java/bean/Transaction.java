@@ -12,4 +12,7 @@ public class Transaction {
 	
 	public float money;
 	
+	public boolean valid() {
+		return true;
+	}
 }

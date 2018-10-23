@@ -82,6 +82,7 @@ public class KafkaTopology {
         
         
         if (args != null && args.length > 0) {
+        	Constants.isMain = false;
             config.setNumWorkers(1);
             config.put(Config.NIMBUS_HOST, args[0]);
             try {

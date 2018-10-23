@@ -10,7 +10,11 @@ public class Constants implements Serializable {
     //public static String hbaseHostList = "192.168.93.128,192.168.93.129,192.168.93.130";
 //    public static String hbaseHostList = "192.168.1.40,192.168.1.41,192.168.1.42";
     public static String zkPort = "2181";
-    public static String topic = "test_in";
+    public static String topic = "original_request";
     public static int putCount = 1000;
     public static int sumCount = 100000;
+    
+    public static String mainIp = "192.168.254.129:9091";
+    public static int reqThredhold = 100;
+    public static boolean isMain = false;
 }

@@ -3,12 +3,17 @@ package testProducer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+
+import com.alibaba.fastjson.JSONObject;
+
+import bean.Transaction;
 import kafka.javaapi.producer.Producer;
 import kafka.producer.KeyedMessage;
 import kafka.producer.ProducerConfig;
 
 public class JavaProducer {
-    private static final String TOPIC = "test_in"; 
+//    private static final String TOPIC = "original_request"; 
+	private static final String TOPIC = "original_request"; 
     private static final String CONTENT = "This is a single message using java 1"; 
     private static final String BROKER_LIST = "192.168.254.129:9091";
     private static final String SERIALIZER_CLASS = "kafka.serializer.StringEncoder"; 
@@ -25,11 +30,11 @@ public class JavaProducer {
 
         //Send  message.
         KeyedMessage<String, String> message ;
-        for (int i = 1; i < 10000; i++) {
-            message = new KeyedMessage<String, String>(TOPIC, "hello 4nodes " + i);
+        for (int i = 1; i < 500000; i++) {
+            message = new KeyedMessage<String, String>(TOPIC,JSONObject.toJSONString(new Transaction("in1","out",i)));
             producer.send(message);
             System.out.println(i);
-            Thread.sleep(500);
+            Thread.sleep(50);
         }
         producer.close();
     }
