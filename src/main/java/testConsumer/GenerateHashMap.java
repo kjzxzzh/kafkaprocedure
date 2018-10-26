@@ -21,7 +21,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
 
-public class SurfBoltKafka extends BaseRichBolt{
+public class GenerateHashMap extends BaseRichBolt{
     private OutputCollector collector;
 
     org.slf4j.Logger logger;

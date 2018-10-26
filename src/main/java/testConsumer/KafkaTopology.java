@@ -46,7 +46,7 @@ public class KafkaTopology {
         builder.setSpout("RandomSentence", new KafkaSpout(spoutConfig), 1);
         
     
-        builder.setBolt("boltKafka", new SurfBoltKafka(), 1).shuffleGrouping("RandomSentence");
+        builder.setBolt("boltKafka", new GenerateHashMap(), 1).shuffleGrouping("RandomSentence");
 
 
         /**
