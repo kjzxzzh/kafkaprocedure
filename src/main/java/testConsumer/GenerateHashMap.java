@@ -31,7 +31,7 @@ public class GenerateHashMap extends BaseRichBolt{
     public void prepare(Map stormConf, TopologyContext context, OutputCollector collector) {
         this.collector = collector;
         logger = org.slf4j.LoggerFactory.getLogger(KafkaTopology.class);
-        this.sender = new KafkaMeddageSender(Constants.mainIp,"hash_map");
+        this.sender = new KafkaMeddageSender(Constants.kafka_1,"hash_map");
         this.transactionSet = new HashSet<Transaction>(); // 目前线程不安全
     }
 

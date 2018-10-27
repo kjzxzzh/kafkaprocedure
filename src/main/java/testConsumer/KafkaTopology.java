@@ -1,6 +1,7 @@
 package testConsumer;
 
 import backtype.storm.tuple.Fields;
+import bean.NodeInformation;
 import networkManager.KafkaMeddageSender;
 //import org.apache.hadoop.conf.Configuration;
 //import org.apache.hadoop.hbase.HBaseConfiguration;
@@ -28,27 +29,50 @@ import java.util.Map;
 public class KafkaTopology {
 
     public static void main(String[] args) throws InterruptedException {
-        System.out.println("WordCountTopology main start!");
+    	
+    	String nodeLabel = "0";
+    	Constants.set();
+    	NodeInformation nodeInformation = Constants.nodelist.get(Integer.parseInt(nodeLabel));
+    	
+        System.out.println("WordCountTopology main start,node number :" + nodeLabel);
 
         TopologyBuilder builder = new TopologyBuilder();
         Config config = new Config();
         config.setDebug(false);
         /**
-         * kafka
+         * 接受请求，发送hashmap
          */
-        BrokerHosts brokerHosts = new ZkHosts(CommonUtil.joinHostPort(Constants.hostList, Constants.zkPort));
-        SpoutConfig spoutConfig = new SpoutConfig(brokerHosts, Constants.topic, "", "topo");
+        BrokerHosts brokerHosts = new ZkHosts(CommonUtil.joinHostPort(nodeInformation.host, nodeInformation.zkPort));
+        SpoutConfig spoutConfig = new SpoutConfig(brokerHosts,"original_request", "", "topo");
         spoutConfig.scheme = new SchemeAsMultiScheme(new StringScheme());
 
         spoutConfig.startOffsetTime = kafka.api.OffsetRequest.EarliestTime();
-        spoutConfig.zkServers = CommonUtil.strToList(Constants.hostList);
-        spoutConfig.zkPort = Integer.valueOf(Constants.zkPort);
+        spoutConfig.zkServers = CommonUtil.strToList(nodeInformation.host);
+        spoutConfig.zkPort = Integer.valueOf(nodeInformation.zkPort);
         builder.setSpout("RandomSentence", new KafkaSpout(spoutConfig), 1);
-        
-    
         builder.setBolt("boltKafka", new GenerateHashMap(), 1).shuffleGrouping("RandomSentence");
 
 
+        /**
+         * 主节点收到hashmap 建块
+         */
+        if ("0".equals(nodeLabel)) {
+        	
+        }
+        
+        
+        /**
+         * 所有节点验证block ，投票
+         */
+
+        /**
+         * 转发投票结果
+         */
+        
+        /**
+         * 成功，存储
+         */
+        
         /**
          *hbase
          */
