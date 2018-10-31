@@ -53,21 +53,27 @@ public class KafkaTopology {
         BrokerHosts brokerHosts = new ZkHosts(CommonUtil.joinHostPort(Constants.host, Constants.zkPort));
         SpoutConfig spoutConfig = new SpoutConfig(brokerHosts,"original_request", "", "topo");
         spoutConfig.scheme = new SchemeAsMultiScheme(new StringScheme());
-
         spoutConfig.startOffsetTime = kafka.api.OffsetRequest.EarliestTime();
         spoutConfig.zkServers = CommonUtil.strToList(Constants.host);
         spoutConfig.zkPort = Integer.valueOf(Constants.zkPort);
-        builder.setSpout("RandomSentence", new KafkaSpout(spoutConfig), 1);
-        builder.setBolt("boltKafka", new GenerateHashMap(), 1).shuffleGrouping("RandomSentence");
+        
+        builder.setSpout("original_request", new KafkaSpout(spoutConfig), 1);
+        builder.setBolt("boltKafka", new GenerateHashMap(), 1).shuffleGrouping("original_request");
 
 
         /**
          * 主节点收到hashmap 建块
          */
         if ("0".equals(nodeLabel)) {
-        	
+            brokerHosts = new ZkHosts(CommonUtil.joinHostPort(Constants.host, Constants.zkPort));
+            spoutConfig = new SpoutConfig(brokerHosts,"hash_map", "", "topo");
+            spoutConfig.scheme = new SchemeAsMultiScheme(new StringScheme());
+            spoutConfig.startOffsetTime = kafka.api.OffsetRequest.EarliestTime();
+            spoutConfig.zkServers = CommonUtil.strToList(Constants.host);
+            spoutConfig.zkPort = Integer.valueOf(Constants.zkPort);
+            builder.setSpout("hash_map", new KafkaSpout(spoutConfig), 1);
         }
-        
+        builder.setSpout("hash_map", new KafkaSpout(spoutConfig), 1);
         
         /**
          * 所有节点验证block ，投票
