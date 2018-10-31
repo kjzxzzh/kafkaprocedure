@@ -1,4 +1,4 @@
-package lianxi;//import java.io.BufferedWriter;
+package trash;//import java.io.BufferedWriter;
 //import java.io.File;
 //import java.io.FileOutputStream;
 //import java.io.IOException;
@@ -44,15 +44,15 @@ package lianxi;//import java.io.BufferedWriter;
 //		configuration = HBaseConfiguration.create();
 //		configuration.set("hbase.zookeeper.property.clientPort", "2181");
 //		/**
-//		 * 这里hbase.zookeeper.quorum的属性与hbase-site.xml中相对应的设置有关
-//		 * 1.在hbase-site.xml中
-//		 * ，设置hbase.zookeeper.quorum为本地地址时，在填写以下hbase.zookeeper
-//		 * .quorum参数值时，请加上端口。 ex: hbase-site.xml: <property>
+//		 * 这里hbase.zookeeper.quorum的属性与hbase-site.xml中相对应的设置有�?
+//		 * 1.在hbase-site.xml�?
+//		 * ，设置hbase.zookeeper.quorum为本地地�?时，在填写以下hbase.zookeeper
+//		 * .quorum参数值时，请加上端口�? ex: hbase-site.xml: <property>
 //		 * <name>hbase.zookeeper.quorum</name> <value>172.16.43.10</value>
 //		 * </property>
 //		 * configuration.set("hbase.zookeeper.quorum","172.16.43.10:2181");
 //		 * 注：2181端口是根据zookeeper中zoo.cfg设置的clientPort=2181值，也可通过登录Hbase
-//		 * Master管理页面，在最底下可以看到 zookeeper的信息，可以直接把那边的拷贝过来。
+//		 * Master管理页面，在�?底下可以看到 zookeeper的信息，可以直接把那边的拷贝过来�?
 //		 * 2.在hbase-site.xml中，填写的是几个zookeeper地址，则将其以分号为分隔填入 ex: hbase-site.xml:
 //		 * <property> <name>hbase.zookeeper.quorum</name>
 //		 * <value>172.16.43.10:2181,172.16.43.10:2182,172.16.43.10:2183</value>
@@ -75,7 +75,7 @@ package lianxi;//import java.io.BufferedWriter;
 //	}
 //
 //	/**
-//	 * 创建表
+//	 * 创建�?
 //	 *
 //	 * @throws Exception
 //	 */
@@ -153,9 +153,9 @@ package lianxi;//import java.io.BufferedWriter;
 //	}
 //
 //	/**
-//	 * 查询时，会每个cell代表一个列簇中的一个区域， 例如：有一个列簇为 test_1
+//	 * 查询时，会每个cell代表�?个列簇中的一个区域， 例如：有�?个列簇为 test_1
 //	 * 1.如果存储数据时没有存储列修饰符，则cell代表整个列簇的内容，查询出的就是该行下整个列簇的内容
-//	 * 2.如果存储数据时有存储列修饰符，则每个列簇下的列修饰符各有一个cell
+//	 * 2.如果存储数据时有存储列修饰符，则每个列簇下的列修饰符各有�?个cell
 //	 *
 //	 */
 //
@@ -166,9 +166,9 @@ package lianxi;//import java.io.BufferedWriter;
 //			htable = (HTable) conn.getTable(TableName.valueOf(table));
 //			scann = htable.getScanner(new Scan());
 //			/**
-//			 * 循环读取按行区分： 读取结果为： 该表RowKey为：1445320222118 列簇为：test_1
-//			 * 值为：这是第一行第一列的数据 列簇为：test_2 值为：这是第一行第二列的数据 列簇为：test_3
-//			 * 值为：这是第一行第三列的数据 ==========================================
+//			 * 循环读取按行区分�? 读取结果为： 该表RowKey为：1445320222118 列簇为：test_1
+//			 * 值为：这是第�?行第�?列的数据 列簇为：test_2 值为：这是第�?行第二列的数�? 列簇为：test_3
+//			 * 值为：这是第�?行第三列的数�? ==========================================
 //			 * 该表RowKey为：1445320222120 列簇为：test_1 值为：这是第二行第一列的数据 列簇为：test_2
 //			 * 值为：这是第二行第二列的数据 列簇为：test_3 值为：这是第二行第三列的数据
 //			 * ==========================================
@@ -183,7 +183,7 @@ package lianxi;//import java.io.BufferedWriter;
 //							+ new String(CellUtil.cloneFamily(cell)));
 //					System.out.println("列修饰符为："
 //							+ new String(CellUtil.cloneQualifier(cell)));
-//					System.out.println("值为："
+//					System.out.println("值为�?"
 //							+ new String(CellUtil.cloneValue(cell)));
 //				}
 //				System.out
@@ -219,7 +219,7 @@ package lianxi;//import java.io.BufferedWriter;
 //				// 疑问：同个行，一个列簇里具有多列的查询？
 ////				System.out.println("列簇为："
 ////						+ new String(CellUtil.cloneFamily(cell)));
-//				System.out.println("值为："
+//				System.out.println("值为�?"
 //						+ new String(CellUtil.cloneValue(cell)));
 //				val += new String(CellUtil.cloneValue(cell))+",";
 //			}
@@ -261,7 +261,7 @@ package lianxi;//import java.io.BufferedWriter;
 //					// 疑问：同个行，一个列簇里具有多列的查询？
 ////					System.out.println("列簇为："
 ////							+ new String(CellUtil.cloneFamily(cell)));
-////					System.out.println("值为："
+////					System.out.println("值为�?"
 ////							+ new String(CellUtil.cloneValue(cell)));
 ////					val += new String(CellUtil.cloneValue(cell))+",";
 //					hosts.add(CellUtil.cloneValue(cell).toString());
@@ -361,7 +361,7 @@ package lianxi;//import java.io.BufferedWriter;
 //					// 疑问：同个行，一个列簇里具有多列的查询？
 ////					System.out.println("列簇为："
 ////							+ new String(CellUtil.cloneFamily(cell)));
-////					System.out.println("值为："
+////					System.out.println("值为�?"
 ////							+ new String(CellUtil.cloneValue(cell)));
 //					val += new String(CellUtil.cloneValue(cell))+",";
 //				}
@@ -408,7 +408,7 @@ package lianxi;//import java.io.BufferedWriter;
 //		HTable hTable = null;
 //		try {
 //			hTable = (HTable) conn.getTable(TableName.valueOf(table));
-//			// 一个PUT代表一行，构造函数传入的是RowKey
+//			// �?个PUT代表�?行，构�?�函数传入的是RowKey
 ////			Put put = new Put((String.valueOf(System.currentTimeMillis())).getBytes());
 //			Put put = new Put(rowkey.getBytes());
 //			if(map!=null && map.size()>0){
@@ -429,12 +429,12 @@ package lianxi;//import java.io.BufferedWriter;
 ////			put.addColumn("info".getBytes(), "host".getBytes(), bean.getTags()
 ////					.getBytes());
 ////			// put.addColumn("test_2".getBytes(), null,
-////			// "这是第一行第二列的数据".getBytes());
+////			// "这是第一行第二列的数�?".getBytes());
 ////			// put.addColumn("test_3".getBytes(), null,
-////			// "这是第一行第三列的数据".getBytes());
+////			// "这是第一行第三列的数�?".getBytes());
 //			List<Put> puts = new ArrayList<Put>();
 //			puts.add(put);
-//			// 添加进表中
+//			// 添加进表�?
 //			hTable.put(puts);
 //		} catch (Exception e) {
 //			e.printStackTrace();
@@ -450,7 +450,7 @@ package lianxi;//import java.io.BufferedWriter;
 //	}
 //
 ////	/**
-////	 * 向一个列簇中插入多个值
+////	 * 向一个列簇中插入多个�?
 ////	 */
 ////
 ////	public void insertColumsValue() {
@@ -458,10 +458,10 @@ package lianxi;//import java.io.BufferedWriter;
 ////		try {
 ////			table = (HTable) conn.getTable(TableName.valueOf("test"));
 ////			Put put = new Put("1445320222118".getBytes());
-////			// 1.如果没有指定列修饰符，而在这之下已经有内容，则覆盖原先内容
-////			// 2.如果有指定列修饰符，而在该列修饰符下如果存在内容则覆盖
+////			// 1.如果没有指定列修饰符，�?�在这之下已经有内容，则覆盖原先内容
+////			// 2.如果有指定列修饰符，而在该列修饰符下如果存在内容则覆�?
 ////			put.addColumn("test_1".getBytes(), null,
-////					"这是第一行第一列的第二个数值".getBytes());
+////					"这是第一行第�?列的第二个数�?".getBytes());
 ////			table.put(put);
 ////		} catch (Exception e) {
 ////			e.printStackTrace();
@@ -485,7 +485,7 @@ package lianxi;//import java.io.BufferedWriter;
 ////
 ////	}
 //	/**
-//	 * 向一个列簇中插入多个值
+//	 * 向一个列簇中插入多个�?
 //	 */
 //
 //	public static void insertColumsValue(String table,String rowkey,String family, String qualifier,String value) {
@@ -493,8 +493,8 @@ package lianxi;//import java.io.BufferedWriter;
 //		try {
 //			htable = (HTable) conn.getTable(TableName.valueOf(table));
 //			Put put = new Put(rowkey.getBytes());
-//			// 1.如果没有指定列修饰符，而在这之下已经有内容，则覆盖原先内容
-//			// 2.如果有指定列修饰符，而在该列修饰符下如果存在内容则覆盖
+//			// 1.如果没有指定列修饰符，�?�在这之下已经有内容，则覆盖原先内容
+//			// 2.如果有指定列修饰符，而在该列修饰符下如果存在内容则覆�?
 //			if(StringUtils.isEmpty(qualifier)){
 //				put.addColumn(family.getBytes(), null,value.getBytes());
 //			}else{
@@ -523,10 +523,10 @@ package lianxi;//import java.io.BufferedWriter;
 //
 //	}
 //	/**
-//	 * 添加数据时，添加列修饰符 列修饰符：相当于在一个列簇中，根据列修饰符分隔成不同区域存储内容。（HBase的特性） 插入后，查询到的数值：
-//	 * 该表RowKey为：1445320222118 列簇为：test_1 列修饰符为： 值为：这是第一行第一列的第二个数值 列簇为：test_1
+//	 * 添加数据时，添加列修饰符 列修饰符：相当于在一个列簇中，根据列修饰符分隔成不同区域存储内容。（HBase的特性） 插入后，查询到的数�?�：
+//	 * 该表RowKey为：1445320222118 列簇为：test_1 列修饰符为： 值为：这是第�?行第�?列的第二个数�? 列簇为：test_1
 //	 * 列修饰符为：1 值为：test_1_1 列簇为：test_1 列修饰符为：2 值为：test_1_2 列簇为：test_2 列修饰符为：
-//	 * 值为：这是第一行第二列的数据 列簇为：test_3 列修饰符为： 值为：这是第一行第三列的数据
+//	 * 值为：这是第�?行第二列的数�? 列簇为：test_3 列修饰符为： 值为：这是第�?行第三列的数�?
 //	 * ========================================== 该表RowKey为：1445320222120
 //	 * 列簇为：test_1 列修饰符为： 值为：这是第二行第一列的数据 列簇为：test_2 列修饰符为： 值为：这是第二行第二列的数据
 //	 * 列簇为：test_3 列修饰符为： 值为：这是第二行第三列的数据
@@ -558,7 +558,7 @@ package lianxi;//import java.io.BufferedWriter;
 //	}
 //
 //	/**
-//	 * 删除指定名称的列簇
+//	 * 删除指定名称的列�?
 //	 */
 //
 //	public static void deleteFamily(String table,String family) {
@@ -580,7 +580,7 @@ package lianxi;//import java.io.BufferedWriter;
 //	}
 //
 //	/**
-//	 * 删除指定行
+//	 * 删除指定�?
 //	 */
 //
 //	public static void deleteRow(String table,String rowkey) {
@@ -612,7 +612,7 @@ package lianxi;//import java.io.BufferedWriter;
 //		HBaseAdmin admin = null;
 //		try {
 //			admin = (HBaseAdmin) conn.getAdmin();
-//			// 在删除一张表前，要使其失效
+//			// 在删除一张表前，要使其失�?
 //			admin.disableTable(table);
 //			admin.deleteTable(table);
 //		} catch (Exception e) {

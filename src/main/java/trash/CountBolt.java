@@ -1,4 +1,4 @@
-package lianxi;
+package trash;
 import java.io.FileWriter;
 import java.util.HashMap;
 import java.util.Map;

@@ -1,4 +1,4 @@
-package testProducer;
+package producer;
 
 import java.util.ArrayList;
 import java.util.List;

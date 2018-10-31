@@ -7,10 +7,9 @@ import backtype.storm.topology.base.BaseRichBolt;
 import backtype.storm.tuple.Fields;
 import backtype.storm.tuple.Tuple;
 import backtype.storm.tuple.Values;
+import topology.KafkaTopology;
 
 import java.util.Map;
-
-import testConsumer.KafkaTopology;
 
 public class SurfBolt extends BaseRichBolt{
     private OutputCollector collector;

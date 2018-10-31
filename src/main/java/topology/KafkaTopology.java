@@ -1,7 +1,8 @@
-package testConsumer;
+package topology;
 
 import backtype.storm.tuple.Fields;
 import bean.NodeInformation;
+import bolt.GenerateHashMap;
 import networkManager.KafkaMeddageSender;
 //import org.apache.hadoop.conf.Configuration;
 //import org.apache.hadoop.hbase.HBaseConfiguration;
@@ -26,15 +27,22 @@ import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.print.attribute.standard.RequestingUserName;
+
 public class KafkaTopology {
 
     public static void main(String[] args) throws InterruptedException {
-    	
-    	String nodeLabel = "0";
-    	Constants.set();
-    	NodeInformation nodeInformation = Constants.nodelist.get(Integer.parseInt(nodeLabel));
-    	
+    	// 设置node 信息
+    	String nodeLabel;
+        if (args != null && args.length > 0) {
+        	nodeLabel = args[0];
+        }
+        else {
+        	nodeLabel = "0";
+        }
+        Constants.set(Integer.parseInt(nodeLabel));
         System.out.println("WordCountTopology main start,node number :" + nodeLabel);
+        
 
         TopologyBuilder builder = new TopologyBuilder();
         Config config = new Config();
@@ -42,13 +50,13 @@ public class KafkaTopology {
         /**
          * 接受请求，发送hashmap
          */
-        BrokerHosts brokerHosts = new ZkHosts(CommonUtil.joinHostPort(nodeInformation.host, nodeInformation.zkPort));
+        BrokerHosts brokerHosts = new ZkHosts(CommonUtil.joinHostPort(Constants.host, Constants.zkPort));
         SpoutConfig spoutConfig = new SpoutConfig(brokerHosts,"original_request", "", "topo");
         spoutConfig.scheme = new SchemeAsMultiScheme(new StringScheme());
 
         spoutConfig.startOffsetTime = kafka.api.OffsetRequest.EarliestTime();
-        spoutConfig.zkServers = CommonUtil.strToList(nodeInformation.host);
-        spoutConfig.zkPort = Integer.valueOf(nodeInformation.zkPort);
+        spoutConfig.zkServers = CommonUtil.strToList(Constants.host);
+        spoutConfig.zkPort = Integer.valueOf(Constants.zkPort);
         builder.setSpout("RandomSentence", new KafkaSpout(spoutConfig), 1);
         builder.setBolt("boltKafka", new GenerateHashMap(), 1).shuffleGrouping("RandomSentence");
 
@@ -106,6 +114,7 @@ public class KafkaTopology {
         
         
         if (args != null && args.length > 0) {
+        	System.out.println(args[0]);
         	Constants.isMain = false;
             config.setNumWorkers(1);
             config.put(Config.NIMBUS_HOST, args[0]);

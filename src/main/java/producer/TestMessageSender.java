@@ -1,4 +1,4 @@
-package testProducer;
+package producer;
 
 import networkManager.KafkaMeddageSender;
 
