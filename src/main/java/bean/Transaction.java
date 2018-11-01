@@ -15,4 +15,18 @@ public class Transaction {
 	public boolean valid() {
 		return true;
 	}
+	
+	@Override
+    public int hashCode() {
+        return (this.user_in + this.user_out + Float.toString(this.money)).hashCode();
+    }
+
+	 @Override
+	 public boolean equals(Object obj) {
+		 if (obj instanceof Transaction) {
+			 Transaction tmp = (Transaction) obj;
+			 return (this.user_in.equals(tmp.user_in) && (this.user_out.equals(tmp.user_out)) && (Math.abs(this.money - tmp.money) < 0.0001 ));
+		 }
+		 return false;
+	 }
 }

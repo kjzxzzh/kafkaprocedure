@@ -8,7 +8,8 @@ public class Block {
 	public String merkle_root;
 	public int height;
 	
-	public void Block(HashSet<Transaction> transactionSet , int height) {
+
+	public Block(HashSet<Transaction> transactionSet, int height) {
 		this.height = height;
 		pre_hash = Integer.toString(height -1);
 		float sum = 0;

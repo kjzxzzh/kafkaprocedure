@@ -45,16 +45,17 @@ public class GenerateHashMap extends BaseRichBolt{
         //验证requestHashSet签名有效性,将交易加入到hashmap中
         if (trans.valid()) {
         	transactionSet.add(trans);
-        	logger.error("Correct request = [" + jsonString + "]"); 
+//        	logger.error("Correct request = [" + jsonString + "]"); 
         }
         else {
-        	logger.error("Error request = [" + jsonString + "]"); 
+//        	logger.error("Error request = [" + jsonString + "]"); 
         }
         collector.emit(new Values(input.getString(0),1));
         collector.ack(input);
         
         // 如果超过100个请求 ， 发送给主节点
-        if (transactionSet.size() > Constants.reqThredhold) {
+        if (transactionSet.size() >= Constants.reqThredhold) {
+        	logger.error("Correct request = [" + jsonString + "]"); 
         	this.sender.sendMessage(JSONObject.toJSONString(transactionSet));
         	transactionSet.clear();
         }

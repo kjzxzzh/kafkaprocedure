@@ -2,6 +2,7 @@ package topology;
 
 import backtype.storm.tuple.Fields;
 import bean.NodeInformation;
+import bolt.GenerateBlock;
 import bolt.GenerateHashMap;
 import networkManager.KafkaMeddageSender;
 //import org.apache.hadoop.conf.Configuration;
@@ -72,9 +73,9 @@ public class KafkaTopology {
             spoutConfig.zkServers = CommonUtil.strToList(Constants.host);
             spoutConfig.zkPort = Integer.valueOf(Constants.zkPort);
             builder.setSpout("hash_map", new KafkaSpout(spoutConfig), 1);
+            builder.setBolt("hash_map_bolt", new GenerateBlock(), 1).shuffleGrouping("hash_map");
         }
-        builder.setSpout("hash_map", new KafkaSpout(spoutConfig), 1);
-        
+
         /**
          * 所有节点验证block ，投票
          */
@@ -119,11 +120,11 @@ public class KafkaTopology {
 
         
         
-        if (args != null && args.length > 0) {
-        	System.out.println(args[0]);
+        if (args != null && args.length > 1) {
         	Constants.isMain = false;
             config.setNumWorkers(1);
             config.put(Config.NIMBUS_HOST, args[0]);
+            System.out.println("WordCountTopology main start,node number :" + nodeLabel);
             try {
                 StormSubmitter.submitTopology("WordCountTopology", config, builder.createTopology());
                 System.out.println("submitTopology success!");

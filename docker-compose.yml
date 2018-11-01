@@ -10,20 +10,38 @@ services:
   kafka1:
     image: wurstmeister/kafka:0.10.2.0 
     container_name: kafka_1
+    command:
+      - /bin/sh 
+      - -c
+      - |
+          start-kafka.sh &
+          sleep 20
+          kafka-topics.sh --create --zookeeper zookeeper:2181 --replication-factor 1 --partitions 1 --topic original_request
+          kafka-topics.sh --create --zookeeper zookeeper:2181 --replication-factor 1 --partitions 1 --topic hash_map
+          kafka-topics.sh --create --zookeeper zookeeper:2181 --replication-factor 1 --partitions 1 --topic block_info
+          sleep 100000h
     ports:
       - "9091:9092"
     links:
       - zookeeper1:zookeeper
     environment:
-      KAFKA_ADVERTISED_HOST_NAME: 192.168.254.129
-      KAFKA_ZOOKEEPER_CONNECT: 192.168.254.129:2181
+      - KAFKA_ADVERTISED_HOST_NAME=192.168.254.129
+      - KAFKA_ZOOKEEPER_CONNECT=192.168.254.129:2181
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
 
   nimbus1:
     image: cranelana/jstorm-2.2.1:v2.2.1
     container_name: nimbus_1
-    command: jstorm nimbus
+    command: 
+      - /bin/sh
+      - -c
+      - |
+          jstorm nimbus &
+          sleep 40
+          cd /tmp
+          jstorm jar kafkaprocedure-1.0-SNAPSHOT-jar-with-dependencies.jar topology.KafkaTopology 0 > /tmp/nimbus1.log 2>&1 
+          sleep 100000h
     depends_on:
       - zookeeper1
     links:
@@ -38,7 +56,6 @@ services:
     container_name: supervisor_1
     command: jstorm supervisor
     depends_on:
-      - nimbus1
       - zookeeper1
     links:
       - nimbus1
@@ -60,6 +77,16 @@ services:
   kafka2:
     image: wurstmeister/kafka:0.10.2.0 
     container_name: kafka_2
+    command:
+      - /bin/sh 
+      - -c
+      - |
+          start-kafka.sh &
+          sleep 20
+          kafka-topics.sh --create --zookeeper zookeeper:2181 --replication-factor 1 --partitions 1 --topic original_request
+          kafka-topics.sh --create --zookeeper zookeeper:2181 --replication-factor 1 --partitions 1 --topic hash_map
+          kafka-topics.sh --create --zookeeper zookeeper:2181 --replication-factor 1 --partitions 1 --topic block_info
+          sleep 100000h
     ports:
       - "9092:9092"
     links:
@@ -73,7 +100,15 @@ services:
   nimbus2:
     image: cranelana/jstorm-2.2.1:v2.2.1
     container_name: nimbus_2
-    command: jstorm nimbus
+    command: 
+      - /bin/sh
+      - -c
+      - |
+          jstorm nimbus &
+          sleep 40
+          cd /tmp
+          jstorm jar kafkaprocedure-1.0-SNAPSHOT-jar-with-dependencies.jar topology.KafkaTopology 1 > /tmp/nimbus2.log 2>&1 
+          sleep 100000h
     depends_on:
       - zookeeper2
     links:
@@ -88,7 +123,6 @@ services:
     container_name: supervisor_2
     command: jstorm supervisor
     depends_on:
-      - nimbus2
       - zookeeper2
     links:
       - nimbus2
@@ -111,6 +145,16 @@ services:
   kafka3:
     image: wurstmeister/kafka:0.10.2.0 
     container_name: kafka_3
+    command:
+      - /bin/sh 
+      - -c
+      - |
+          start-kafka.sh &
+          sleep 20
+          kafka-topics.sh --create --zookeeper zookeeper:2181 --replication-factor 1 --partitions 1 --topic original_request
+          kafka-topics.sh --create --zookeeper zookeeper:2181 --replication-factor 1 --partitions 1 --topic hash_map
+          kafka-topics.sh --create --zookeeper zookeeper:2181 --replication-factor 1 --partitions 1 --topic block_info
+          sleep 100000h
     ports:
       - "9093:9092"
     links:
@@ -124,7 +168,15 @@ services:
   nimbus3:
     image: cranelana/jstorm-2.2.1:v2.2.1
     container_name: nimbus_3
-    command: jstorm nimbus
+    command: 
+      - /bin/sh
+      - -c
+      - |
+          jstorm nimbus &
+          sleep 40
+          cd /tmp
+          jstorm jar kafkaprocedure-1.0-SNAPSHOT-jar-with-dependencies.jar topology.KafkaTopology 2 > /tmp/nimbus3.log 2>&1 
+          sleep 100000h
     depends_on:
       - zookeeper3
     links:
@@ -139,7 +191,6 @@ services:
     container_name: supervisor_3
     command: jstorm supervisor
     depends_on:
-      - nimbus3
       - zookeeper3
     links:
       - nimbus3
@@ -161,6 +212,16 @@ services:
   kafka4:
     image: wurstmeister/kafka:0.10.2.0 
     container_name: kafka_4
+    command:
+      - /bin/sh 
+      - -c
+      - |
+          start-kafka.sh &
+          sleep 20
+          kafka-topics.sh --create --zookeeper zookeeper:2181 --replication-factor 1 --partitions 1 --topic original_request
+          kafka-topics.sh --create --zookeeper zookeeper:2181 --replication-factor 1 --partitions 1 --topic hash_map
+          kafka-topics.sh --create --zookeeper zookeeper:2181 --replication-factor 1 --partitions 1 --topic block_info
+          sleep 100000h
     ports:
       - "9094:9092"
     links:
@@ -174,7 +235,15 @@ services:
   nimbus4:
     image: cranelana/jstorm-2.2.1:v2.2.1
     container_name: nimbus_4
-    command: jstorm nimbus
+    command: 
+      - /bin/sh
+      - -c
+      - |
+          jstorm nimbus &
+          sleep 40
+          cd /tmp
+          jstorm jar kafkaprocedure-1.0-SNAPSHOT-jar-with-dependencies.jar topology.KafkaTopology 3 > /tmp/nimbus4.log 2>&1 
+          sleep 100000h
     depends_on:
       - zookeeper4
     links:
@@ -189,7 +258,6 @@ services:
     container_name: supervisor_4
     command: jstorm supervisor
     depends_on:
-      - nimbus4
       - zookeeper4
     links:
       - nimbus4
