@@ -5,6 +5,8 @@ import bean.NodeInformation;
 import bolt.FirstVote;
 import bolt.GenerateBlock;
 import bolt.GenerateHashMap;
+import bolt.SecondVote;
+import bolt.SurfBolt;
 import networkManager.KafkaMeddageSender;
 //import org.apache.hadoop.conf.Configuration;
 //import org.apache.hadoop.hbase.HBaseConfiguration;
@@ -68,7 +70,7 @@ public class KafkaTopology {
          */
         if ("0".equals(nodeLabel)) {
             brokerHosts = new ZkHosts(CommonUtil.joinHostPort(Constants.host, Constants.zkPort));
-            spoutConfig = new SpoutConfig(brokerHosts,"hash_map", "", "topo");
+            spoutConfig = new SpoutConfig(brokerHosts,"hash_map", "", "topoforhashmap");
             spoutConfig.scheme = new SchemeAsMultiScheme(new StringScheme());
             spoutConfig.startOffsetTime = kafka.api.OffsetRequest.EarliestTime();
             spoutConfig.zkServers = CommonUtil.strToList(Constants.host);
@@ -89,14 +91,32 @@ public class KafkaTopology {
         
         builder.setSpout("block_info", new KafkaSpout(spoutConfig), 1);
         builder.setBolt("block_info_bolt", new FirstVote(), 1).shuffleGrouping("block_info");
+        
         /**
          * 转发投票结果
          */
+        brokerHosts = new ZkHosts(CommonUtil.joinHostPort(Constants.host, Constants.zkPort));
+        spoutConfig = new SpoutConfig(brokerHosts,"vote_1", "", "topo");
+        spoutConfig.scheme = new SchemeAsMultiScheme(new StringScheme());
+        spoutConfig.startOffsetTime = kafka.api.OffsetRequest.EarliestTime();
+        spoutConfig.zkServers = CommonUtil.strToList(Constants.host);
+        spoutConfig.zkPort = Integer.valueOf(Constants.zkPort);
+        
+        builder.setSpout("vote_1", new KafkaSpout(spoutConfig), 1);
+        builder.setBolt("vote_1_bolt", new SecondVote(), 1).shuffleGrouping("vote_1");
         
         /**
          * 成功，存储
          */
+        brokerHosts = new ZkHosts(CommonUtil.joinHostPort(Constants.host, Constants.zkPort));
+        spoutConfig = new SpoutConfig(brokerHosts,"vote_2", "", "topo");
+        spoutConfig.scheme = new SchemeAsMultiScheme(new StringScheme());
+        spoutConfig.startOffsetTime = kafka.api.OffsetRequest.EarliestTime();
+        spoutConfig.zkServers = CommonUtil.strToList(Constants.host);
+        spoutConfig.zkPort = Integer.valueOf(Constants.zkPort);
         
+        builder.setSpout("vote_2", new KafkaSpout(spoutConfig), 1);
+        builder.setBolt("vote_2_bolt", new SurfBolt(), 1).shuffleGrouping("vote_2");
         /**
          *hbase
          */

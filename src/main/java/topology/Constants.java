@@ -14,13 +14,14 @@ public class Constants  {
 		nodelist.add(new NodeInformation(host_2,zkPort_2,kafka_2));
 		nodelist.add(new NodeInformation(host_3,zkPort_3,kafka_3));
 		nodelist.add(new NodeInformation(host_4,zkPort_4,kafka_4));
+		nodeLabel = i;
 		host = nodelist.get(i).host;
 		zkPort = nodelist.get(i).zkPort;
 		kafka = nodelist.get(i).kafka;
 	}
 	
 
-	
+	public static int nodeLabel = 0; 
 	// node_1(main)
 	public static String host_1 = "192.168.254.129";
 	public static String zkPort_1 = "2181";

@@ -39,8 +39,6 @@ public class GenerateBlock extends BaseRichBolt {
 		hashSets.add(jsonString);
         collector.emit(new Values(input.getString(0),1));
         collector.ack(input);
-        logger.error("receive   = [" + jsonString + "]"); 
-        logger.error("hashSets.size   = [" + hashSets.size() + "]"); 
 		if (hashSets.size() >= 4) {
 			// 获取交集
 			HashSet<Transaction> transactionSet = null;
@@ -48,12 +46,12 @@ public class GenerateBlock extends BaseRichBolt {
 				HashSet<Transaction> transet = JSON.parseObject(s,new TypeReference<HashSet<Transaction>>(){});
 				if (transactionSet == null) transactionSet = transet;
 				else transactionSet.retainAll(transet);
-				for (Transaction t :transactionSet) {
-					logger.error("transactionSet = [" + JSONObject.toJSONString(t) + "]"); 
-				}
-				for (Transaction t :transet) {
-					logger.error("transet = [" + JSONObject.toJSONString(t) + "]"); 
-				}
+//				for (Transaction t :transactionSet) {
+//					logger.error("transactionSet = [" + JSONObject.toJSONString(t) + "]"); 
+//				}
+//				for (Transaction t :transet) {
+//					logger.error("transet = [" + JSONObject.toJSONString(t) + "]"); 
+//				}
 			}
 			// 构建块
 			Block block = new Block(transactionSet, this.height);

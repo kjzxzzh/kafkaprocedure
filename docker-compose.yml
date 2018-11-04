@@ -19,6 +19,8 @@ services:
           kafka-topics.sh --create --zookeeper zookeeper:2181 --replication-factor 1 --partitions 1 --topic original_request
           kafka-topics.sh --create --zookeeper zookeeper:2181 --replication-factor 1 --partitions 1 --topic hash_map
           kafka-topics.sh --create --zookeeper zookeeper:2181 --replication-factor 1 --partitions 1 --topic block_info
+          kafka-topics.sh --create --zookeeper zookeeper:2181 --replication-factor 1 --partitions 1 --topic vote_1
+          kafka-topics.sh --create --zookeeper zookeeper:2181 --replication-factor 1 --partitions 1 --topic vote_2
           sleep 100000h
     ports:
       - "9091:9092"
@@ -38,7 +40,7 @@ services:
       - -c
       - |
           jstorm nimbus &
-          sleep 40
+          sleep 80
           cd /tmp
           jstorm jar kafkaprocedure-1.0-SNAPSHOT-jar-with-dependencies.jar topology.KafkaTopology 0 > /tmp/nimbus1.log 2>&1 
           sleep 100000h
@@ -86,6 +88,8 @@ services:
           kafka-topics.sh --create --zookeeper zookeeper:2181 --replication-factor 1 --partitions 1 --topic original_request
           kafka-topics.sh --create --zookeeper zookeeper:2181 --replication-factor 1 --partitions 1 --topic hash_map
           kafka-topics.sh --create --zookeeper zookeeper:2181 --replication-factor 1 --partitions 1 --topic block_info
+          kafka-topics.sh --create --zookeeper zookeeper:2181 --replication-factor 1 --partitions 1 --topic vote_1
+          kafka-topics.sh --create --zookeeper zookeeper:2181 --replication-factor 1 --partitions 1 --topic vote_2
           sleep 100000h
     ports:
       - "9092:9092"
@@ -105,7 +109,7 @@ services:
       - -c
       - |
           jstorm nimbus &
-          sleep 40
+          sleep 80
           cd /tmp
           jstorm jar kafkaprocedure-1.0-SNAPSHOT-jar-with-dependencies.jar topology.KafkaTopology 1 > /tmp/nimbus2.log 2>&1 
           sleep 100000h
@@ -154,6 +158,8 @@ services:
           kafka-topics.sh --create --zookeeper zookeeper:2181 --replication-factor 1 --partitions 1 --topic original_request
           kafka-topics.sh --create --zookeeper zookeeper:2181 --replication-factor 1 --partitions 1 --topic hash_map
           kafka-topics.sh --create --zookeeper zookeeper:2181 --replication-factor 1 --partitions 1 --topic block_info
+          kafka-topics.sh --create --zookeeper zookeeper:2181 --replication-factor 1 --partitions 1 --topic vote_1
+          kafka-topics.sh --create --zookeeper zookeeper:2181 --replication-factor 1 --partitions 1 --topic vote_2
           sleep 100000h
     ports:
       - "9093:9092"
@@ -173,7 +179,7 @@ services:
       - -c
       - |
           jstorm nimbus &
-          sleep 40
+          sleep 80
           cd /tmp
           jstorm jar kafkaprocedure-1.0-SNAPSHOT-jar-with-dependencies.jar topology.KafkaTopology 2 > /tmp/nimbus3.log 2>&1 
           sleep 100000h
@@ -221,6 +227,8 @@ services:
           kafka-topics.sh --create --zookeeper zookeeper:2181 --replication-factor 1 --partitions 1 --topic original_request
           kafka-topics.sh --create --zookeeper zookeeper:2181 --replication-factor 1 --partitions 1 --topic hash_map
           kafka-topics.sh --create --zookeeper zookeeper:2181 --replication-factor 1 --partitions 1 --topic block_info
+          kafka-topics.sh --create --zookeeper zookeeper:2181 --replication-factor 1 --partitions 1 --topic vote_1
+          kafka-topics.sh --create --zookeeper zookeeper:2181 --replication-factor 1 --partitions 1 --topic vote_2
           sleep 100000h
     ports:
       - "9094:9092"
@@ -240,7 +248,7 @@ services:
       - -c
       - |
           jstorm nimbus &
-          sleep 40
+          sleep 80
           cd /tmp
           jstorm jar kafkaprocedure-1.0-SNAPSHOT-jar-with-dependencies.jar topology.KafkaTopology 3 > /tmp/nimbus4.log 2>&1 
           sleep 100000h

@@ -11,7 +11,7 @@ public class TestMessageSender {
 		KafkaMeddageSender sender = new KafkaMeddageSender("192.168.254.129:9091,192.168.254.129:9092,192.168.254.129:9093,192.168.254.129:9094","original_request");
 //		KafkaMeddageSender sender = new KafkaMeddageSender("192.168.254.129:9094","original_request");
 
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 1; i++) {
         	for (int j = 0 ; j < 100 ;j++) {
         		sender.sendMessage(JSONObject.toJSONString(new Transaction("in1","out",i * 100 + j)));
         	}

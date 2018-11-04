@@ -1,4 +1,4 @@
-package trash;
+package bolt;
 
 import backtype.storm.task.OutputCollector;
 import backtype.storm.task.TopologyContext;
@@ -22,8 +22,7 @@ public class SurfBolt extends BaseRichBolt{
     }
 
     public void execute(Tuple input) {
-        logger.error("SurfBolt run success. first msg=[" + input.getString(0) + "]");
-        System.out.println("SurfBolt run success. first msg=[" + input.getString(0) + "]");
+        logger.error("Block Success=[" + input.getString(0) + "]");
         collector.ack(input);
         collector.emit(new Values(input.getString(0),1));
 
