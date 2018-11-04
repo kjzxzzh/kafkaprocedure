@@ -56,7 +56,8 @@ public class GenerateBlock extends BaseRichBolt {
 				}
 			}
 			// ¹¹½¨¿é
-			Block block = new Block(transactionSet,this.height);
+			Block block = new Block(transactionSet, this.height);
+			
 			//¹ã²¥
 			this.sender.sendMessage(JSONObject.toJSONString(block));
 			this.height = this.height + 1;

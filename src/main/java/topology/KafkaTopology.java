@@ -2,6 +2,7 @@ package topology;
 
 import backtype.storm.tuple.Fields;
 import bean.NodeInformation;
+import bolt.FirstVote;
 import bolt.GenerateBlock;
 import bolt.GenerateHashMap;
 import networkManager.KafkaMeddageSender;
@@ -79,7 +80,15 @@ public class KafkaTopology {
         /**
          * 所有节点验证block ，投票
          */
-
+        brokerHosts = new ZkHosts(CommonUtil.joinHostPort(Constants.host, Constants.zkPort));
+        spoutConfig = new SpoutConfig(brokerHosts,"block_info", "", "topo");
+        spoutConfig.scheme = new SchemeAsMultiScheme(new StringScheme());
+        spoutConfig.startOffsetTime = kafka.api.OffsetRequest.EarliestTime();
+        spoutConfig.zkServers = CommonUtil.strToList(Constants.host);
+        spoutConfig.zkPort = Integer.valueOf(Constants.zkPort);
+        
+        builder.setSpout("block_info", new KafkaSpout(spoutConfig), 1);
+        builder.setBolt("block_info_bolt", new FirstVote(), 1).shuffleGrouping("block_info");
         /**
          * 转发投票结果
          */

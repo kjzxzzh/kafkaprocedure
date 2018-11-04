@@ -8,6 +8,11 @@ public class Block {
 	public String merkle_root;
 	public int height;
 	
+	public Block() {
+		this.height = -1;
+		this.merkle_root = "-1";
+		this.pre_hash = "-2";
+	}
 
 	public Block(HashSet<Transaction> transactionSet, int height) {
 		this.height = height;
@@ -19,6 +24,7 @@ public class Block {
 		merkle_root = Float.toString(sum);
 	}
 
+	
 	public Boolean valid() {
 		return true;
 	}
