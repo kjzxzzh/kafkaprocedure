@@ -37,7 +37,6 @@ public class SecondVote extends BaseRichBolt {
 		VoteInformationFirst voteInformationFirst = JSON.parseObject(jsonString,VoteInformationFirst.class);
 		
 		if (voteInformations.containsKey(voteInformationFirst.blockheight) == false){
-			logger.error("new vote 1 = " + jsonString);
 			voteInformations.put(voteInformationFirst.blockheight, new VoteInformationSec());
 		}
 		voteInformations.get(voteInformationFirst.blockheight).Add(voteInformationFirst);

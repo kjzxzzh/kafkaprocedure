@@ -11,6 +11,7 @@ import bean.Transaction;
 import kafka.javaapi.producer.Producer;
 import kafka.producer.KeyedMessage;
 import kafka.producer.ProducerConfig;
+import message.HashMapMessage;
 import networkManager.KafkaMeddageSender;
 import topology.Constants;
 import topology.KafkaTopology;
@@ -29,7 +30,7 @@ public class GenerateHashMap extends BaseRichBolt{
     org.slf4j.Logger logger;
     private KafkaMeddageSender sender;
     HashSet<Transaction> transactionSet ;
-    
+    int batchNum = 0;
     public void prepare(Map stormConf, TopologyContext context, OutputCollector collector) {
         this.collector = collector;
         logger = org.slf4j.LoggerFactory.getLogger(KafkaTopology.class);
@@ -55,9 +56,14 @@ public class GenerateHashMap extends BaseRichBolt{
         
         // 如果超过100个请求 ， 发送给主节点
         if (transactionSet.size() >= Constants.reqThredhold) {
+        	HashMapMessage message = new HashMapMessage();
+        	message.batchNum = batchNum;
+        	message.nodeLabel = Constants.nodeLabel;
+        	message.transactionSet = transactionSet;
         	logger.error("Correct request = [" + jsonString + "]"); 
-        	this.sender.sendMessage(JSONObject.toJSONString(transactionSet));
+        	this.sender.sendMessage(JSONObject.toJSONString(message));
         	transactionSet.clear();
+        	batchNum += 1;
         }
     }
 

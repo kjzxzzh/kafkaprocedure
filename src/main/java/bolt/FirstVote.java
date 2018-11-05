@@ -34,10 +34,12 @@ public class FirstVote extends BaseRichBolt {
 		String jsonString = input.getString(0);
 		Block block = (Block) JSON.parseObject(jsonString, Block.class);  
 		
-		
+		 
 		VoteInformationFirst voteInformationFirst = new VoteInformationFirst();
 		voteInformationFirst.blockheight = block.height;
 		voteInformationFirst.vote = block.valid();
+		voteInformationFirst.batchNum = block.batchNum;
+		voteInformationFirst.nodelabel = Constants.nodeLabel;
 		
 		this.sender.sendMessage(JSONObject.toJSONString(voteInformationFirst));
         collector.emit(new Values(input.getString(0),1));
