@@ -51,6 +51,7 @@ public class KafkaTopology {
         TopologyBuilder builder = new TopologyBuilder();
         Config config = new Config();
         config.setDebug(false);
+        config.put("spout.single.thread", true); 
         /**
          * 接受请求，发送hashmap
          */
@@ -152,7 +153,10 @@ public class KafkaTopology {
         if (args != null && args.length > 1) {
         	Constants.isMain = false;
             config.setNumWorkers(1);
+            
             config.put(Config.NIMBUS_HOST, args[0]);
+            
+            
             System.out.println("WordCountTopology main start,node number :" + nodeLabel);
             try {
                 StormSubmitter.submitTopology("WordCountTopology", config, builder.createTopology());

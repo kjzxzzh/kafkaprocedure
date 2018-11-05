@@ -48,7 +48,7 @@ public class Constants  {
 	public static String kafka;	
 	
 	
-    public static int reqThredhold = 100;
+    public static int reqThredhold = 500;
     public static boolean isMain = false;
     
     public static String kafkaList = "192.168.254.129:9091,192.168.254.129:9092,192.168.254.129:9093,192.168.254.129:9094";
