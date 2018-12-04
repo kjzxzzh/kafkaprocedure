@@ -33,6 +33,9 @@ import java.util.Map;
 
 import javax.print.attribute.standard.RequestingUserName;
 
+import org.apache.storm.hbase.bolt.HBaseBolt;
+import org.apache.storm.hbase.bolt.mapper.SimpleHBaseMapper;
+
 public class KafkaTopology {
 
     public static void main(String[] args) throws InterruptedException {
@@ -121,32 +124,23 @@ public class KafkaTopology {
         /**
          *hbase
          */
-//        Configuration config1 = HBaseConfiguration.create();
-//        SimpleHBaseMapper Mapper = new SimpleHBaseMapper()
-//                .withRowKeyField("word")
-//                .withColumnFields(new Fields("count"))
-//                .withColumnFamily("result");
-//        HBaseBolt hbaseBolt = new HBaseBolt("wordcount", Mapper).withConfigKey("hbase");
-//        builder.setBolt("HbaseBolt", hbaseBolt, 1)
-//                .addConfiguration("hbase", new HashMap<String, Object>())
-//                .shuffleGrouping("countBolt");
-//        System.setProperty("hadoop.home.dir", "C://hadoop//");
-//
-//                SimpleHBaseMapper mapper = new SimpleHBaseMapper()
-//                .withRowKeyField("word")
-//                .withColumnFields(new Fields("count"))
-////                .withCounterFields(new Fields("count"))
-//                .withColumnFamily("result");
-//
-//        Map<String, Object> hbConf = new HashMap<String, Object>();
-//        hbConf.put("hbase.rootdir", "hdfs://192.168.71.144:9000/hbase");
-//        hbConf.put("hbase.zookeeper.quorum", "192.168.71.144:32768");
-//        config.put("hbase.conf", hbConf);
-////        HBaseBolt hbase = new HBaseBolt("wordCount", mapper).withConfigKey("hbase.conf");
-//        HBaseBolt hBaseBolt = new HBaseBolt("wordcount", mapper).withConfigKey("hbase.conf");
-
-//        builder.setBolt("hbaseBolt", hbase, 1).shuffleGrouping("SurfBolt");
-//        builder.setBolt("hbase", hBaseBolt, 3).shuffleGrouping("writer");
+        if ("0".equals(nodeLabel)) {
+        	Map<String, Object> hbConf = new HashMap<String, Object>();
+            hbConf.put("hbase.rootdir", "hdfs://192.168.71.144:9000/hbase");
+            config.put("hbase.conf", hbConf);
+            config.put("hbase.conf", hbConf);
+            hbConf.put("hbase.rootdir", "hdfs://192.168.71.144:9000/hbase");
+            hbConf.put("hbase.zookeeper.quorum", "192.168.71.144");
+            hbConf.put("hbase.zookeeper.property.clientPort", "2181");
+            SimpleHBaseMapper mapper = new SimpleHBaseMapper()
+                    .withRowKeyField("word")
+                    .withColumnFields(new Fields("word"))
+                    .withCounterFields(new Fields("count"))
+                    .withColumnFamily("cf");
+            HBaseBolt hbase = new HBaseBolt("WordCount", mapper)
+                    .withConfigKey("hbase.conf");
+            builder.setBolt("hbase_bolt", hbase, 1).fieldsGrouping("vote_2_bolt", new Fields("word"));
+        }
 
         
         

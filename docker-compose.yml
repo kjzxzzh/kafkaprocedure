@@ -1,11 +1,19 @@
 version: '2'
 services:
   zookeeper1:
-    image: wurstmeister/zookeeper
+    image: harisekhon/hbase:1.3
     container_name: zookeeper_1
     restart: always
     ports:
-      - "2181:2181"
+      - 2181:2181
+      - 8080:8080
+      - 8085:8085
+      - 9090:9090
+      - 9095:9095
+      - 16000:16000
+      - 16010:16010
+      - 16201:16201
+      - 16301:16301
 
   kafka1:
     image: wurstmeister/kafka:0.10.2.0 
@@ -15,7 +23,7 @@ services:
       - -c
       - |
           start-kafka.sh &
-          sleep 20
+          sleep 10
           kafka-topics.sh --create --zookeeper zookeeper:2181 --replication-factor 1 --partitions 1 --topic original_request
           kafka-topics.sh --create --zookeeper zookeeper:2181 --replication-factor 1 --partitions 1 --topic hash_map
           kafka-topics.sh --create --zookeeper zookeeper:2181 --replication-factor 1 --partitions 1 --topic block_info
@@ -27,8 +35,8 @@ services:
     links:
       - zookeeper1:zookeeper
     environment:
-      - KAFKA_ADVERTISED_HOST_NAME=192.168.254.129
-      - KAFKA_ZOOKEEPER_CONNECT=192.168.254.129:2181
+      - KAFKA_ADVERTISED_HOST_NAME=192.168.71.144
+      - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
 
@@ -40,7 +48,7 @@ services:
       - -c
       - |
           jstorm nimbus &
-          sleep 80
+          sleep 100
           cd /tmp
           jstorm jar kafkaprocedure-1.0-SNAPSHOT-jar-with-dependencies.jar topology.KafkaTopology 0 > /tmp/nimbus1.log 2>&1 
           sleep 100000h
@@ -96,7 +104,7 @@ services:
     links:
       - zookeeper2:zookeeper
     environment:
-      KAFKA_ADVERTISED_HOST_NAME: 192.168.254.129
+      KAFKA_ADVERTISED_HOST_NAME: 192.168.71.144
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
@@ -166,7 +174,7 @@ services:
     links:
       - zookeeper3:zookeeper
     environment:
-      KAFKA_ADVERTISED_HOST_NAME: 192.168.254.129
+      KAFKA_ADVERTISED_HOST_NAME: 192.168.71.144
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
@@ -235,7 +243,7 @@ services:
     links:
       - zookeeper4:zookeeper
     environment:
-      KAFKA_ADVERTISED_HOST_NAME: 192.168.254.129
+      KAFKA_ADVERTISED_HOST_NAME: 192.168.71.144
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
