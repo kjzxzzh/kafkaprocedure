@@ -38,8 +38,7 @@ public class FirstVote extends BaseRichBolt {
 		VoteInformationFirst voteInformationFirst = new VoteInformationFirst();
 		voteInformationFirst.blockheight = block.height;
 		voteInformationFirst.vote = block.valid();
-		voteInformationFirst.batchNum = block.batchNum;
-		voteInformationFirst.nodelabel = Constants.nodeLabel;
+		voteInformationFirst.block = block;
 		
 		this.sender.sendMessage(JSONObject.toJSONString(voteInformationFirst));
         collector.emit(new Values(input.getString(0),1));

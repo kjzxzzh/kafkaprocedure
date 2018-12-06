@@ -37,14 +37,16 @@ public class SecondVote extends BaseRichBolt {
 		VoteInformationFirst voteInformationFirst = JSON.parseObject(jsonString,VoteInformationFirst.class);
 		
 		if (voteInformations.containsKey(voteInformationFirst.blockheight) == false){
-			voteInformations.put(voteInformationFirst.blockheight, new VoteInformationSec());
+			VoteInformationSec tmp = new VoteInformationSec();
+			tmp.blockheight = voteInformationFirst.blockheight;
+			voteInformations.put(voteInformationFirst.blockheight, tmp);
 		}
 		voteInformations.get(voteInformationFirst.blockheight).Add(voteInformationFirst);
         collector.emit(new Values(input.getString(0),1));
         collector.ack(input);
         
-        logger.error("receive vote 1 = " + jsonString);
-        logger.error("voteInformationFirst.blockheight = " + voteInformationFirst.blockheight + "\t" + voteInformations.get(voteInformationFirst.blockheight).voteInformations.size());
+//        logger.error("receive vote 1 = " + jsonString);
+//        logger.error("voteInformationFirst.blockheight = " + voteInformationFirst.blockheight + "\t" + voteInformations.get(voteInformationFirst.blockheight).voteInformations.size());
 		if (voteInformations.get(voteInformationFirst.blockheight).valid()) {
 			this.sender.sendMessage(JSONObject.toJSONString(voteInformations.get(voteInformationFirst.blockheight)));
 			voteInformations.remove(voteInformationFirst.blockheight);

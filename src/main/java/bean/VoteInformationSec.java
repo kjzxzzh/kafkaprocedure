@@ -6,6 +6,7 @@ import java.util.List;
 
 public class VoteInformationSec {
 	public List<VoteInformationFirst> voteInformations ;
+	public int blockheight;
 	
 	public VoteInformationSec() {
 		voteInformations = new LinkedList<VoteInformationFirst>();

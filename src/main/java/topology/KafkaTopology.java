@@ -133,13 +133,12 @@ public class KafkaTopology {
             hbConf.put("hbase.zookeeper.quorum", "192.168.71.144");
             hbConf.put("hbase.zookeeper.property.clientPort", "2181");
             SimpleHBaseMapper mapper = new SimpleHBaseMapper()
-                    .withRowKeyField("word")
-                    .withColumnFields(new Fields("word"))
-                    .withCounterFields(new Fields("count"))
+                    .withRowKeyField("height")
+                    .withColumnFields(new Fields("pre_hash" ,"merkle_root"))
                     .withColumnFamily("cf");
             HBaseBolt hbase = new HBaseBolt("WordCount", mapper)
                     .withConfigKey("hbase.conf");
-            builder.setBolt("hbase_bolt", hbase, 1).fieldsGrouping("vote_2_bolt", new Fields("word"));
+            builder.setBolt("hbase_bolt", hbase, 1).fieldsGrouping("vote_2_bolt", new Fields("height"));
         }
 
         

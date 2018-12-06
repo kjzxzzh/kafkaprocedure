@@ -5,7 +5,5 @@ public class VoteInformationFirst {
 		
 		public int blockheight;
 		
-		public int batchNum;
-		
-		public int nodelabel;
+		public Block block;
 }
