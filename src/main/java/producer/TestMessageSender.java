@@ -14,12 +14,12 @@ public class TestMessageSender {
 
 		long startTime = System.currentTimeMillis();    //获取开始时间
 	
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 1000; i++) {
         	for (int j = 0 ; j < Constants.reqThredhold ;j++) {
         		sender.sendMessage(JSONObject.toJSONString(new Transaction("1","2",i * Constants.reqThredhold + j)));
         	}
         	System.out.println(i);
-            Thread.sleep(600);
+            Thread.sleep(1000);
         }
         System.out.println("done");
 		long endTime = System.currentTimeMillis();    //获取结束时间

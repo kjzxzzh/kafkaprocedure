@@ -1,7 +1,9 @@
 package bolt;
 
+import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Map;
+import java.util.Set;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -24,6 +26,7 @@ public class SecondVote extends BaseRichBolt {
     org.slf4j.Logger logger;
     private KafkaMeddageSender sender;
     public Hashtable<Integer, VoteInformationSec> voteInformations = new Hashtable<Integer, VoteInformationSec>();
+    private Set<Integer> already = new HashSet<Integer>();
     
 	public void prepare(Map stormConf, TopologyContext context, OutputCollector collector) {
         this.collector = collector;
@@ -35,6 +38,11 @@ public class SecondVote extends BaseRichBolt {
 	public void execute(Tuple input) {
 		String jsonString = input.getString(0);
 		VoteInformationFirst voteInformationFirst = JSON.parseObject(jsonString,VoteInformationFirst.class);
+		
+		if (already.contains(voteInformationFirst.blockheight)) {
+	        collector.ack(input);
+	        return;
+		}
 		
 		if (voteInformations.containsKey(voteInformationFirst.blockheight) == false){
 			VoteInformationSec tmp = new VoteInformationSec();
@@ -50,6 +58,7 @@ public class SecondVote extends BaseRichBolt {
 		if (voteInformations.get(voteInformationFirst.blockheight).valid()) {
 			this.sender.sendMessage(JSONObject.toJSONString(voteInformations.get(voteInformationFirst.blockheight)));
 			voteInformations.remove(voteInformationFirst.blockheight);
+			already.add(voteInformationFirst.blockheight);
 		}
 
 	}

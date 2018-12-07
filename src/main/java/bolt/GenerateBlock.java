@@ -45,7 +45,6 @@ public class GenerateBlock extends BaseRichBolt {
 		
 		//如果处理完，不接受
 		if (already.contains(message.batchNum)) {
-	        collector.emit(new Values(input.getString(0),1));
 	        collector.ack(input);
 	        return;
 		}
