@@ -5,6 +5,7 @@ import java.util.Hashtable;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -29,6 +30,7 @@ public class GenerateBlock extends BaseRichBolt {
     org.slf4j.Logger logger;
     private KafkaMeddageSender sender;
     private Hashtable<Integer, List<HashMapMessage>> hashMapMessages = new Hashtable<Integer, List<HashMapMessage>>();
+    private Set<Integer> already = new HashSet<Integer>();
     public int height = 0;
     
 	public void prepare(Map stormConf, TopologyContext context, OutputCollector collector) {
@@ -40,6 +42,14 @@ public class GenerateBlock extends BaseRichBolt {
 	public void execute(Tuple input) {
 		String jsonString = input.getString(0);
 		HashMapMessage message = JSON.parseObject(jsonString,HashMapMessage.class);
+		
+		//如果处理完，不接受
+		if (already.contains(message.batchNum)) {
+	        collector.emit(new Values(input.getString(0),1));
+	        collector.ack(input);
+	        return;
+		}
+		
 		if (hashMapMessages.containsKey(message.batchNum) == false) hashMapMessages.put(message.batchNum, new LinkedList<HashMapMessage>());
 		hashMapMessages.get(message.batchNum).add(message);
 		
@@ -62,6 +72,7 @@ public class GenerateBlock extends BaseRichBolt {
 			this.height = this.height + 1;
 			//清空hashSets
 			hashMapMessages.remove(message.batchNum);
+			already.add(message.batchNum);
 		}
 	}
 

@@ -126,11 +126,11 @@ public class KafkaTopology {
          */
         if ("0".equals(nodeLabel)) {
         	Map<String, Object> hbConf = new HashMap<String, Object>();
-            hbConf.put("hbase.rootdir", "hdfs://192.168.71.144:9000/hbase");
+            hbConf.put("hbase.rootdir", "hdfs://192.168.254.129:9000/hbase");
             config.put("hbase.conf", hbConf);
             config.put("hbase.conf", hbConf);
-            hbConf.put("hbase.rootdir", "hdfs://192.168.71.144:9000/hbase");
-            hbConf.put("hbase.zookeeper.quorum", "192.168.71.144");
+            hbConf.put("hbase.rootdir", "hdfs://192.168.254.129:9000/hbase");
+            hbConf.put("hbase.zookeeper.quorum", "192.168.254.129");
             hbConf.put("hbase.zookeeper.property.clientPort", "2181");
             SimpleHBaseMapper mapper = new SimpleHBaseMapper()
                     .withRowKeyField("height")
