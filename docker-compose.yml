@@ -23,7 +23,7 @@ services:
       - -c
       - |
           start-kafka.sh &
-          sleep 10
+          sleep 20
           kafka-topics.sh --create --zookeeper zookeeper:2181 --replication-factor 1 --partitions 1 --topic original_request
           kafka-topics.sh --create --zookeeper zookeeper:2181 --replication-factor 1 --partitions 1 --topic hash_map
           kafka-topics.sh --create --zookeeper zookeeper:2181 --replication-factor 1 --partitions 1 --topic block_info
