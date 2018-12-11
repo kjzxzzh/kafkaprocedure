@@ -49,7 +49,7 @@ public class SurfBolt extends BaseRichBolt{
         
         if (voteInformations.get(voteInformationSec.blockheight).size() >= 3){
         	Block block = voteInformations.get(voteInformationSec.blockheight).get(0).voteInformations.get(0).block;
-        	collector.emit(new Values(   String.valueOf(block.height), block.pre_hash , block.merkle_root , block.transactions	));
+        	collector.emit(new Values(   String.valueOf(block.height), block.pre_hash ,block.hash,block.timestamp, block.merkle_root , String.valueOf(block.transactions.size())	));
         	
         	voteInformations.remove(voteInformationSec.blockheight);
         	logger.error("Block Success=[" + block.toString() + "]");
@@ -59,7 +59,7 @@ public class SurfBolt extends BaseRichBolt{
     }
 
     public void declareOutputFields(OutputFieldsDeclarer declarer) {
-        declarer.declare(new Fields("height", "pre_hash" ,"merkle_root","transactions"));
+        declarer.declare(new Fields("height", "pre_hash" ,"hash", "timestamp","merkle_root","transactions"));
     }
 
 }

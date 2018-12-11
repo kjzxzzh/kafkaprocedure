@@ -134,9 +134,9 @@ public class KafkaTopology {
             hbConf.put("hbase.zookeeper.property.clientPort", "2181");
             SimpleHBaseMapper mapper = new SimpleHBaseMapper()
                     .withRowKeyField("height")
-                    .withColumnFields(new Fields("pre_hash" ,"merkle_root"))
+                    .withColumnFields(new Fields("pre_hash" ,"hash", "timestamp","merkle_root","transactions"))
                     .withColumnFamily("cf");
-            HBaseBolt hbase = new HBaseBolt("WordCount", mapper)
+            HBaseBolt hbase = new HBaseBolt("Block-info", mapper)
                     .withConfigKey("hbase.conf");
             builder.setBolt("hbase_bolt", hbase, 1).fieldsGrouping("vote_2_bolt", new Fields("height"));
         }
